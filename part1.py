@@ -70,6 +70,7 @@ def assign():
             i += 1
             expr()
         else:
+            i -= 1
             pass
     except:
         pass
@@ -116,7 +117,8 @@ def expr():
         elif tokens[i] == "a" or tokens[i] == "b" or tokens[i] == "c" or tokens[i] == "0" or tokens[i] == "1" or tokens[i] == "2" or tokens[i] == "3" or tokens[i] == "4" or tokens[i] == "5" or tokens[i] == "6" or tokens[i] == "7" or tokens[i] == "8" or tokens[i] == "9":
             i += 1
         else:
-            return
+            i -= 1
+            return 
     except:
         pass
 
@@ -140,17 +142,17 @@ def interpret(tokens):
         if tokens[i] == '!':
             if tokens[i+1] == 'a':
                 if a == float('inf'):
-                    print('syntax error')
+                    print('exception')
                     return
                 print(a)
             elif tokens[i+1] == 'b':
                 if b == float('inf'):
-                    print('syntax error')
+                    print('exception')
                     return
                 print(b)
             elif tokens[i+1] == 'c':
                 if c == float('inf'):
-                    print('syntax error')
+                    print('exception')
                     return
                 print(c)
         if tokens[i] == '=':
@@ -169,40 +171,41 @@ def math(toks, index, a, b, c):
         i = index;
         while toks[i] != ';':
             stack.append(toks[i])
-            if len(stack) > 2:
-                if stack[len(stack)-1] in 'abc0123456789' and stack[len(stack)-2] in 'abc0123456789' and stack[len(stack)-3] in '+-*/':
-                    second = stack.pop()
-                    first = stack.pop()
-                    op = stack.pop()
+      
+            if len(stack) > 2 and stack[len(stack)-1] in 'abc0123456789' and stack[len(stack)-2] in 'abc0123456789' and stack[len(stack)-3] in '+-*/':
+                second = stack.pop()
+                first = stack.pop()
+                op = stack.pop()
 
-                    if first == 'a':
-                        first = a
-                    elif first == 'b':
-                        first = b
-                    elif first == 'c':
-                        first = c
-                    else:
-                        first = int(first)
+                if first == 'a':
+                    first = a
+                elif first == 'b':
+                    first = b
+                elif first == 'c':
+                    first = c
+                else:
+                    first = int(first)
 
-                    if second == 'a':
-                        second = a
-                    elif second == 'b':
-                        second = b
-                    elif second == 'c':
-                        second = c
-                    else:
-                        second = int(second)
+                if second == 'a':
+                    second = a
+                elif second == 'b':
+                    second = b
+                elif second == 'c':
+                    second = c
+                else:
+                    second = int(second)
 
-                    if op == '+':
-                        stack.append(str(first+second))
-                    elif op == '-':
-                        stack.append(str(first-second))
-                    elif op == '*':
-                        stack.append(str(first*second))
-                    elif op == '/':
-                        stack.append(str(first/second))
+                if op == '+':
+                    stack.append(str(first+second))
+                elif op == '-':
+                    stack.append(str(first-second))
+                elif op == '*':
+                    stack.append(str(first*second))
+                elif op == '/':
+                    stack.append(str(first//second))
+
             i+=1
-        return float(stack[0])
+        return int(stack[0])
        
        
         
@@ -218,8 +221,10 @@ input_str = input("input: ")
 
 tokens = tokenize(input_str)
 #print(tokens)
-print(isValid())
+#print(isValid())
+#print('toks: '+str(len(tokens)))
+#print('i: '+str(i))
 if isValid():
     inte = interpret(tokens) 
 else:
-    print('systax error')
+    print('syntax error')
