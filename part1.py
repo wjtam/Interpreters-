@@ -133,12 +133,74 @@ def isValid():
     except:
         return False
 
-# def interpret(tokens):
-#     pass
+def interpret(tokens):
+    a = b = c = 0
+    for i in range(len(tokens)):
+        if tokens[i] == '!':
+            if tokens[i+1] == 'a':
+                return a
+            elif tokens[i+1] == 'b':
+                return b
+            elif tokens[i+1] == 'c':
+                return c
+        if tokens[i] == '=':
+            if tokens[i-1] == 'a':
+                a = math(tokens, i+1, a, b, c)
+            elif tokens[i-1] == 'b':
+                b = math(tokens, i+1, a, b, c)
+            elif tokens[i-1] == 'c':
+                c = math(tokens, i+1, a, b, c)
+
+def math(toks, index, a, b, c):
+    if toks[index].isnumeric():
+        return int(toks[index])
+    else:
+        stack = []
+        i = index;
+        while toks[i] != ';':
+            stack.append(toks[i])
+            if len(stack) > 2:
+                if stack[len(stack)-1] in 'abc0123456789' and stack[len(stack)-2] in 'abc0123456789' and stack[len(stack)-3] in '+-*/':
+                    first = stack.pop()
+                    second = stack.pop()
+                    op = stack.pop()
+
+                    if first == 'a':
+                        first = a
+                    elif first == 'b':
+                        first = b
+                    elif first == 'c':
+                        first = c
+                    else:
+                        first = int(first)
+
+                    if second == 'a':
+                        second = a
+                    elif second == 'b':
+                        second = b
+                    elif second == 'c':
+                        second = c
+                    else:
+                        second = int(second)
+
+                    if op == '+':
+                        stack.append(str(first+second))
+                    elif op == '-':
+                        stack.append(str(first-second))
+                    elif op == '*':
+                        stack.append(str(first*second))
+                    elif op == '/':
+                        stack.append(str(first/second))
+            i+=1
+        return int(stack[0])
+       
+       
+        
+
 
 # print(grammar)
 
-input_str = input()
+input_str = input("input: ")
 # for i in " ":
 #     input_str.replace(i, "")
 #
@@ -146,4 +208,8 @@ input_str = input()
 
 tokens = tokenize(input_str)
 print(tokens)
-print(isValid())
+#print(isValid())
+if isValid():
+    print(interpret(tokens))
+else:
+    print('systax error')
