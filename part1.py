@@ -44,6 +44,7 @@ def stmt():
         if tokens[i] == "!":
             prints()
         elif tokens[i] == "a" or tokens[i] == "b" or tokens[i] == "c":
+            i += 1
             assign()
     except:
         pass
@@ -134,15 +135,24 @@ def isValid():
         return False
 
 def interpret(tokens):
-    a = b = c = 0
+    a = b = c = float('inf')
     for i in range(len(tokens)):
         if tokens[i] == '!':
             if tokens[i+1] == 'a':
-                return a
+                if a == float('inf'):
+                    print('syntax error')
+                    return
+                print(a)
             elif tokens[i+1] == 'b':
-                return b
+                if b == float('inf'):
+                    print('syntax error')
+                    return
+                print(b)
             elif tokens[i+1] == 'c':
-                return c
+                if c == float('inf'):
+                    print('syntax error')
+                    return
+                print(c)
         if tokens[i] == '=':
             if tokens[i-1] == 'a':
                 a = math(tokens, i+1, a, b, c)
@@ -161,8 +171,8 @@ def math(toks, index, a, b, c):
             stack.append(toks[i])
             if len(stack) > 2:
                 if stack[len(stack)-1] in 'abc0123456789' and stack[len(stack)-2] in 'abc0123456789' and stack[len(stack)-3] in '+-*/':
-                    first = stack.pop()
                     second = stack.pop()
+                    first = stack.pop()
                     op = stack.pop()
 
                     if first == 'a':
@@ -192,7 +202,7 @@ def math(toks, index, a, b, c):
                     elif op == '/':
                         stack.append(str(first/second))
             i+=1
-        return int(stack[0])
+        return float(stack[0])
        
        
         
@@ -207,9 +217,9 @@ input_str = input("input: ")
 # print(input_str)
 
 tokens = tokenize(input_str)
-print(tokens)
-#print(isValid())
+#print(tokens)
+print(isValid())
 if isValid():
-    print(interpret(tokens))
+    inte = interpret(tokens) 
 else:
     print('systax error')
