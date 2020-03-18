@@ -1,0 +1,27 @@
+Program ::= Expr .
+Expr ::= Expr && Expr
+	| Expr || Expr
+	| Expr ˆ hExpr 
+	| ∼Expr 
+	| Consti
+	| ( Expr ) 
+Const ::= F | T
+
+
+T: return True
+F: return False
+
+expr:	T && T	{print t}
+	| T && F {print f}
+	| F && F {print f}
+	| F && T {print f}
+	|T || T {print t}
+	|T || F {print t}
+	|F || F {print f}
+	|F || T {print t}
+	|T ^ T {print f}
+	|T ^ F {print t}
+	|F ^ F {print f}
+	|F ^ T {print t}
+	|~T {print f}
+	|~F {print t}

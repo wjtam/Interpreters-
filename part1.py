@@ -171,8 +171,7 @@ def math(toks, index, a, b, c):
         i = index;
         while toks[i] != ';':
             stack.append(toks[i])
-      
-            if len(stack) > 2 and stack[len(stack)-1] in 'abc0123456789' and stack[len(stack)-2] in 'abc0123456789' and stack[len(stack)-3] in '+-*/':
+            if len(stack) > 2 and (stack[-1].isnumeric() or stack[-1] in 'abc') and (stack[-2].isnumeric() or stack[-2] in 'abc') and stack[-3] in '+-*/':  
                 second = stack.pop()
                 first = stack.pop()
                 op = stack.pop()
@@ -205,6 +204,7 @@ def math(toks, index, a, b, c):
                     stack.append(str(first//second))
 
             i+=1
+        
         return int(stack[0])
        
        
