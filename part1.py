@@ -201,7 +201,10 @@ def math(toks, index, a, b, c):
                 elif op == '*':
                     stack.append(str(first*second))
                 elif op == '/':
-                    stack.append(str(first//second))
+                    try:
+                        stack.append(str(first//second))
+                    except ZeroDivisionError:
+                        return float('inf')
 
             i+=1
         
