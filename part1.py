@@ -169,9 +169,8 @@ def math(toks, index, a, b, c):
     else:
         stack = []
         i = index;
-        while toks[i] != ';':
-            stack.append(toks[i])
-            if len(stack) > 2 and (stack[-1].isnumeric() or stack[-1] in 'abc') and (stack[-2].isnumeric() or stack[-2] in 'abc') and stack[-3] in '+-*/':  
+        while True:
+            while len(stack) > 2 and (isnumber(stack[-1]) or stack[-1] in 'abc') and (isnumber(stack[-2]) or stack[-2] in 'abc') and stack[-3] in '+-*/':  
                 second = stack.pop()
                 first = stack.pop()
                 op = stack.pop()
@@ -205,12 +204,21 @@ def math(toks, index, a, b, c):
                         stack.append(str(first//second))
                     except ZeroDivisionError:
                         return float('inf')
-
-            i+=1
-        
+                        
+            if toks[i] != ';':
+                stack.append(toks[i])
+                i+=1
+            elif toks[i] == ';' and len(stack) < 2:
+                break
+                      
         return int(stack[0])
-       
-       
+
+def isnumber(s):
+    try:
+        num = int(s)
+        return True
+    except ValueError:
+        return False
         
 
 
