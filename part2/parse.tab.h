@@ -47,9 +47,9 @@ extern int yydebug;
   {
     True = 258,
     False = 259,
-    And = 260,
+    Xor = 260,
     Or = 261,
-    Xor = 262,
+    And = 262,
     Not = 263
   };
 #endif

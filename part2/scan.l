@@ -11,10 +11,10 @@
 
 T	{return True; }
 F	{return False; }
-&&	{return And; }
+"&&"	{return And; }
 "||"	{return Or; }
 "^"	{return Xor; }
-~	{return Not; } 
+"~"	{return Not; } 
 [ \t]    ; // ignore all whitespace
 .        { return yytext[0]; }
 

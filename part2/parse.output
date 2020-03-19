@@ -1,252 +1,405 @@
+State 12 conflicts: 3 shift/reduce
+State 13 conflicts: 3 shift/reduce
+
+
 Grammar
 
-    0 $accept: expr $end
+    0 $accept: program $end
 
-    1 expr: True And True
-    2     | True And False
-    3     | False And False
-    4     | False And True
-    5     | True Or True
-    6     | True Or False
-    7     | False Or False
-    8     | False Or True
-    9     | True Xor True
-   10     | True Xor False
-   11     | False Xor False
-   12     | False Xor True
-   13     | Not True
-   14     | Not False
+    1 program: expr '.'
+
+    2 expr: True And True
+    3     | True And False
+    4     | expr And True
+    5     | False And False
+    6     | False And True
+    7     | expr And False
+    8     | True Or True
+    9     | True Or False
+   10     | expr Or True
+   11     | False Or False
+   12     | False Or True
+   13     | expr Or False
+   14     | True Xor True
+   15     | True Xor False
+   16     | expr Xor True
+   17     | False Xor False
+   18     | False Xor True
+   19     | expr Xor False
+   20     | Not True
+   21     | Not False
+   22     | Not expr
 
 
 Terminals, with rules where they appear
 
 $end (0) 0
+'.' (46) 1
 error (256)
-True (258) 1 2 4 5 6 8 9 10 12 13
-False (259) 2 3 4 6 7 8 10 11 12 14
-And (260) 1 2 3 4
-Or (261) 5 6 7 8
-Xor (262) 9 10 11 12
-Not (263) 13 14
+True (258) 2 3 4 6 8 9 10 12 14 15 16 18 20
+False (259) 3 5 6 7 9 11 12 13 15 17 18 19 21
+Xor (260) 14 15 16 17 18 19
+Or (261) 8 9 10 11 12 13
+And (262) 2 3 4 5 6 7
+Not (263) 20 21 22
 
 
 Nonterminals, with rules where they appear
 
-$accept (9)
+$accept (10)
     on left: 0
-expr (10)
-    on left: 1 2 3 4 5 6 7 8 9 10 11 12 13 14, on right: 0
+program (11)
+    on left: 1, on right: 0
+expr (12)
+    on left: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22,
+    on right: 1 4 7 10 13 16 19 22
 
 
 State 0
 
-    0 $accept: . expr $end
+    0 $accept: . program $end
 
     True   shift, and go to state 1
     False  shift, and go to state 2
     Not    shift, and go to state 3
 
-    expr  go to state 4
+    program  go to state 4
+    expr     go to state 5
 
 
 State 1
 
-    1 expr: True . And True
-    2     | True . And False
-    5     | True . Or True
-    6     | True . Or False
-    9     | True . Xor True
-   10     | True . Xor False
+    2 expr: True . And True
+    3     | True . And False
+    8     | True . Or True
+    9     | True . Or False
+   14     | True . Xor True
+   15     | True . Xor False
 
-    And  shift, and go to state 5
-    Or   shift, and go to state 6
-    Xor  shift, and go to state 7
+    Xor  shift, and go to state 6
+    Or   shift, and go to state 7
+    And  shift, and go to state 8
 
 
 State 2
 
-    3 expr: False . And False
-    4     | False . And True
-    7     | False . Or False
-    8     | False . Or True
-   11     | False . Xor False
-   12     | False . Xor True
+    5 expr: False . And False
+    6     | False . And True
+   11     | False . Or False
+   12     | False . Or True
+   17     | False . Xor False
+   18     | False . Xor True
 
-    And  shift, and go to state 8
-    Or   shift, and go to state 9
-    Xor  shift, and go to state 10
+    Xor  shift, and go to state 9
+    Or   shift, and go to state 10
+    And  shift, and go to state 11
 
 
 State 3
 
-   13 expr: Not . True
-   14     | Not . False
+   20 expr: Not . True
+   21     | Not . False
+   22     | Not . expr
 
-    True   shift, and go to state 11
-    False  shift, and go to state 12
+    True   shift, and go to state 12
+    False  shift, and go to state 13
+    Not    shift, and go to state 3
+
+    expr  go to state 14
 
 
 State 4
 
-    0 $accept: expr . $end
+    0 $accept: program . $end
 
-    $end  shift, and go to state 13
+    $end  shift, and go to state 15
 
 
 State 5
 
-    1 expr: True And . True
-    2     | True And . False
+    1 program: expr . '.'
+    4 expr: expr . And True
+    7     | expr . And False
+   10     | expr . Or True
+   13     | expr . Or False
+   16     | expr . Xor True
+   19     | expr . Xor False
 
-    True   shift, and go to state 14
-    False  shift, and go to state 15
+    Xor  shift, and go to state 16
+    Or   shift, and go to state 17
+    And  shift, and go to state 18
+    '.'  shift, and go to state 19
 
 
 State 6
 
-    5 expr: True Or . True
-    6     | True Or . False
-
-    True   shift, and go to state 16
-    False  shift, and go to state 17
-
-
-State 7
-
-    9 expr: True Xor . True
-   10     | True Xor . False
-
-    True   shift, and go to state 18
-    False  shift, and go to state 19
-
-
-State 8
-
-    3 expr: False And . False
-    4     | False And . True
+   14 expr: True Xor . True
+   15     | True Xor . False
 
     True   shift, and go to state 20
     False  shift, and go to state 21
 
 
-State 9
+State 7
 
-    7 expr: False Or . False
-    8     | False Or . True
+    8 expr: True Or . True
+    9     | True Or . False
 
     True   shift, and go to state 22
     False  shift, and go to state 23
 
 
-State 10
+State 8
 
-   11 expr: False Xor . False
-   12     | False Xor . True
+    2 expr: True And . True
+    3     | True And . False
 
     True   shift, and go to state 24
     False  shift, and go to state 25
 
 
+State 9
+
+   17 expr: False Xor . False
+   18     | False Xor . True
+
+    True   shift, and go to state 26
+    False  shift, and go to state 27
+
+
+State 10
+
+   11 expr: False Or . False
+   12     | False Or . True
+
+    True   shift, and go to state 28
+    False  shift, and go to state 29
+
+
 State 11
 
-   13 expr: Not True .
+    5 expr: False And . False
+    6     | False And . True
 
-    $default  reduce using rule 13 (expr)
+    True   shift, and go to state 30
+    False  shift, and go to state 31
 
 
 State 12
 
-   14 expr: Not False .
+    2 expr: True . And True
+    3     | True . And False
+    8     | True . Or True
+    9     | True . Or False
+   14     | True . Xor True
+   15     | True . Xor False
+   20     | Not True .
 
-    $default  reduce using rule 14 (expr)
+    Xor  shift, and go to state 6
+    Or   shift, and go to state 7
+    And  shift, and go to state 8
+
+    Xor       [reduce using rule 20 (expr)]
+    Or        [reduce using rule 20 (expr)]
+    And       [reduce using rule 20 (expr)]
+    $default  reduce using rule 20 (expr)
 
 
 State 13
 
-    0 $accept: expr $end .
+    5 expr: False . And False
+    6     | False . And True
+   11     | False . Or False
+   12     | False . Or True
+   17     | False . Xor False
+   18     | False . Xor True
+   21     | Not False .
 
-    $default  accept
+    Xor  shift, and go to state 9
+    Or   shift, and go to state 10
+    And  shift, and go to state 11
+
+    Xor       [reduce using rule 21 (expr)]
+    Or        [reduce using rule 21 (expr)]
+    And       [reduce using rule 21 (expr)]
+    $default  reduce using rule 21 (expr)
 
 
 State 14
 
-    1 expr: True And True .
+    4 expr: expr . And True
+    7     | expr . And False
+   10     | expr . Or True
+   13     | expr . Or False
+   16     | expr . Xor True
+   19     | expr . Xor False
+   22     | Not expr .
 
-    $default  reduce using rule 1 (expr)
+    $default  reduce using rule 22 (expr)
 
 
 State 15
 
-    2 expr: True And False .
+    0 $accept: program $end .
 
-    $default  reduce using rule 2 (expr)
+    $default  accept
 
 
 State 16
 
-    5 expr: True Or True .
+   16 expr: expr Xor . True
+   19     | expr Xor . False
 
-    $default  reduce using rule 5 (expr)
+    True   shift, and go to state 32
+    False  shift, and go to state 33
 
 
 State 17
 
-    6 expr: True Or False .
+   10 expr: expr Or . True
+   13     | expr Or . False
 
-    $default  reduce using rule 6 (expr)
+    True   shift, and go to state 34
+    False  shift, and go to state 35
 
 
 State 18
 
-    9 expr: True Xor True .
+    4 expr: expr And . True
+    7     | expr And . False
 
-    $default  reduce using rule 9 (expr)
+    True   shift, and go to state 36
+    False  shift, and go to state 37
 
 
 State 19
 
-   10 expr: True Xor False .
+    1 program: expr '.' .
 
-    $default  reduce using rule 10 (expr)
+    $default  reduce using rule 1 (program)
 
 
 State 20
 
-    4 expr: False And True .
+   14 expr: True Xor True .
 
-    $default  reduce using rule 4 (expr)
+    $default  reduce using rule 14 (expr)
 
 
 State 21
 
-    3 expr: False And False .
+   15 expr: True Xor False .
 
-    $default  reduce using rule 3 (expr)
+    $default  reduce using rule 15 (expr)
 
 
 State 22
 
-    8 expr: False Or True .
+    8 expr: True Or True .
 
     $default  reduce using rule 8 (expr)
 
 
 State 23
 
-    7 expr: False Or False .
+    9 expr: True Or False .
 
-    $default  reduce using rule 7 (expr)
+    $default  reduce using rule 9 (expr)
 
 
 State 24
 
-   12 expr: False Xor True .
+    2 expr: True And True .
 
-    $default  reduce using rule 12 (expr)
+    $default  reduce using rule 2 (expr)
 
 
 State 25
 
-   11 expr: False Xor False .
+    3 expr: True And False .
+
+    $default  reduce using rule 3 (expr)
+
+
+State 26
+
+   18 expr: False Xor True .
+
+    $default  reduce using rule 18 (expr)
+
+
+State 27
+
+   17 expr: False Xor False .
+
+    $default  reduce using rule 17 (expr)
+
+
+State 28
+
+   12 expr: False Or True .
+
+    $default  reduce using rule 12 (expr)
+
+
+State 29
+
+   11 expr: False Or False .
 
     $default  reduce using rule 11 (expr)
+
+
+State 30
+
+    6 expr: False And True .
+
+    $default  reduce using rule 6 (expr)
+
+
+State 31
+
+    5 expr: False And False .
+
+    $default  reduce using rule 5 (expr)
+
+
+State 32
+
+   16 expr: expr Xor True .
+
+    $default  reduce using rule 16 (expr)
+
+
+State 33
+
+   19 expr: expr Xor False .
+
+    $default  reduce using rule 19 (expr)
+
+
+State 34
+
+   10 expr: expr Or True .
+
+    $default  reduce using rule 10 (expr)
+
+
+State 35
+
+   13 expr: expr Or False .
+
+    $default  reduce using rule 13 (expr)
+
+
+State 36
+
+    4 expr: expr And True .
+
+    $default  reduce using rule 4 (expr)
+
+
+State 37
+
+    7 expr: expr And False .
+
+    $default  reduce using rule 7 (expr)
