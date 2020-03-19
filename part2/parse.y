@@ -1,40 +1,36 @@
 %{
 #include <stdio.h>
 int yylex();
-void yyerror(char *s);
+void yyerror(char * s);
 %}
 
-%start program
-%token TRUE FALSE OPERATOR
+%token True False And Or Xor Not
 
+%start expr
 
 %%
-program	: expr '.'		{ }
-	| '(' expr  ')'		{ }
+
+expr : True And True         	{ printf("T"); }
+	| True And False       	{ printf("F"); }
+	| False And False    	{ printf("F"); }
+	| False And True      	{ printf("F"); }
+	| True Or True		{ printf("T"); }
+	| True Or False		{ printf("T"); }
+	| False Or False	{ printf("F"); }
+	| False Or True		{ printf("T"); }
+	| True Xor True		{ printf("F"); }
+	| True Xor False	{ printf("T"); }
+	| False Xor False	{ printf("F"); }
+	| False Xor True	{ printf("T"); }
+	| Not True		{ printf("F"); }
+	| Not False		{ printf("T"); }
 	;
 
-expr 	: TRUE '&&' TRUE 	{printf("T");}
-	| TRUE '&&' FALSE 	{printf("F");}
-	| FALSE '&&' FALSE	{printf("F");}
-	| FALSE '&&' TRUE	{printf("F");}
-	| TRUE '||' TRUE	{printf("T");}
-	| TRUE '||' FALSE	{printf("T");}
-	| FALSE '||' FALSE 	{printf("F");}
-	| FALSE '||' TRUE 	{printf("T");}
-	| TRUE '^' TRUE        	{printf("F");}
-        | TRUE '^' FALSE       	{printf("T");}
-        | FALSE '^' FALSE      	{printf("F");}
-        | FALSE '^' TRUE       	{printf("T");}
-	| '~' TRUE 		{printf("F");}
-	| '~' FALSE		{printf("T");}
 %%
 
-void yyerror(char *s) {
-	fprintf(stderr, "%s\n", s);
-}
+void yyerror(char* s) {fprintf(stderr,"%s\n",s);}
 
-int main (int argc, char* argv[]) {
+int main(int argc, char* argv[]) {
 	yyparse();
 	return 0;
-} 
-
+}
